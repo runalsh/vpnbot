@@ -19,21 +19,22 @@ volumes:
 
 services:
     up:
-        image: mercurykd/vpnbot-ng:1.1
+        image: angielocal
         build:
             context: dockerfile
-            dockerfile: nginx.dockerfile
+            dockerfile: angie.dockerfile
             args:
                 image: ${IMAGE}
         volumes:
             - ./config/.profile:/root/.ashrc:ro
-            - ./config/upstream.conf:/etc/nginx/nginx.conf
+            - ./config/upstream.conf:/etc/angie/angie.conf
             - ./scripts/start_upstream.sh:/start_upstream.sh
             - ./ssh:/ssh
             - ./config/sshd_config:/etc/ssh/sshd_config
             - ./logs/:/logs/
         ports:
             - 443:443
+            - 9000:9000
         hostname: upstream
         container_name: upstream-${VER}
         depends_on:
@@ -54,6 +55,42 @@ services:
             default:
                 ipv4_address: 10.10.0.10
         logging: *default-logging
+    # up:
+    #     image: mercurykd/vpnbot-ng:1.1
+    #     build:
+    #         context: dockerfile
+    #         dockerfile: nginx.dockerfile
+    #         args:
+    #             image: ${IMAGE}
+    #     volumes:
+    #         - ./config/.profile:/root/.ashrc:ro
+    #         - ./config/upstream.conf:/etc/nginx/nginx.conf
+    #         - ./scripts/start_upstream.sh:/start_upstream.sh
+    #         - ./ssh:/ssh
+    #         - ./config/sshd_config:/etc/ssh/sshd_config
+    #         - ./logs/:/logs/
+    #     ports:
+    #         - 443:443
+    #     hostname: upstream
+    #     container_name: upstream-${VER}
+    #     depends_on:
+    #         php:
+    #             condition: service_healthy
+    #         ad:
+    #             condition: service_started
+    #         ss:
+    #             condition: service_started
+    #     env_file:
+    #         - path: ./.env
+    #           required: true # default
+    #         - path: ./override.env
+    #           required: false
+    #     stop_grace_period: 1s
+    #     command: ["/bin/sh", "/start_upstream.sh"]
+    #     networks:
+    #         default:
+    #             ipv4_address: 10.10.0.10
+    #     logging: *default-logging
     ng:
         image: mercurykd/vpnbot-ng:1.1
         build:
