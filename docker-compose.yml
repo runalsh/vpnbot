@@ -32,6 +32,7 @@ services:
             - ./ssh:/ssh
             - ./config/sshd_config:/etc/ssh/sshd_config
             - ./logs/:/logs/
+            - ./certs/:/certs/
         ports:
             - 443:443
             - 9000:9000
