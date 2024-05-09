@@ -9,7 +9,7 @@ ARG NGINX_HTTP_PROXY_CONNECT_MODULE
 
 RUN apk add --no-cache build-base wget ca-certificates gnupg unzip make zlib-dev pkgconfig libtool cmake automake autoconf build-base linux-headers pcre-dev wget zlib-dev ca-certificates uwsgi uwsgi-python3 supervisor cmake samurai libunwind-dev linux-headers perl-dev libstdc++  libssl3 libcrypto3 openssl openssl-dev git
 
-COPY --from=golang:alpine3.19 /usr/local/go/ /usr/local/go/
+COPY --from=golang:alpine /usr/local/go/ /usr/local/go/
 ENV PATH="/usr/local/go/bin:${PATH}"
 
 RUN mkdir -p /tmp/build/angie && \

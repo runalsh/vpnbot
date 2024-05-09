@@ -8,8 +8,8 @@ RUN set -x \
           '[0-9]+\.[0-9]+' /etc/alpine-release)/main" >> /etc/apk/repositories \
      && apk add --no-cache angie openssh-server angie-console-light apache2-utils \
      && rm /etc/apk/keys/angie-signing.rsa \
-     && ln -sf /dev/stdout /var/log/angie/access.log \
-     && ln -sf /dev/stderr /var/log/angie/error.log \
+     # && ln -sf /dev/stdout /var/log/angie/access.log \
+     # && ln -sf /dev/stderr /var/log/angie/error.log \
      && mkdir -p /root/.ssh \
      && mkdir -p /var/cache/angie \
      && htpasswd -c -b /etc/angie/.htpasswd user password 
