@@ -35,6 +35,7 @@ services:
         ports:
             - 443:443
             - 9000:9000
+            - 9001:9001
         hostname: upstream
         container_name: upstream-${VER}
         depends_on:
