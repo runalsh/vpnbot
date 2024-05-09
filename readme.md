@@ -1,3 +1,14 @@
+## Changes from original:
+### branch: upstream-angie
+  - usptream server changed from Nginx to Angie - fork with some adds from Nginx Pro https://angie.software/
+  - add status page with stats for each stream, http(s) and tcp\udp connections
+  - prometheus endpoint, your can use grafana dashboard https://grafana.com/grafana/dashboards/20719-angie-dashboard/
+  - https for console and prometheus
+  - basic auth for console and prometheus, look for passwd line in dockerfile/angie.dockerfile (angieproxy.dockerfile),
+     set you username and password in line "htpasswd -c -b /etc/angie/.htpasswd user password"
+  - angie.dockerfile just install package from alpine repo
+  - angieproxy.dockerfile build Angie from sources with custom module https://github.com/chobits/ngx_http_proxy_connect_module
+---
 telegram bot to manage servers (inside the bot)
 
 <img src="https://github.com/mercurykd/vpnbot/assets/30900414/d5a81237-5215-41db-87e5-20734120cc9c" width="200">
