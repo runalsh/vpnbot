@@ -29,6 +29,7 @@ services:
             - ./config/.profile:/root/.ashrc:ro
             - ./config/upstream.conf:/etc/angie/angie.conf
             - ./scripts/start_upstream.sh:/start_upstream.sh
+            - ./certs/:/certs/
             - ./ssh:/ssh
             - ./config/sshd_config:/etc/ssh/sshd_config
             - ./logs/:/logs/
