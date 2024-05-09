@@ -22,7 +22,7 @@ services:
         image: angielocal
         build:
             context: dockerfile
-            dockerfile: angie.dockerfile
+            dockerfile: angieproxy.dockerfile
             args:
                 image: ${IMAGE}
         volumes:
