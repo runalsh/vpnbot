@@ -94,17 +94,17 @@ services:
     #             ipv4_address: 10.10.0.10
     #     logging: *default-logging
     ng:
-        image: mercurykd/vpnbot-ng:1.1
+        image: runalsh/angie:latest
         build:
             context: dockerfile
-            dockerfile: nginx.dockerfile
+            dockerfile: angie.dockerfile
             args:
                 image: ${IMAGE}
         volumes:
             - ./config/.profile:/root/.ashrc:ro
-            - ./config/nginx.conf:/etc/nginx/nginx.conf
-            - ./config/include.conf:/etc/nginx/include.conf
-            - ./config/nginx_default.conf:/nginx_default.conf
+            - ./config/nginx.conf:/etc/angie/angie.conf
+            - ./config/include.conf:/etc/angie/include.conf
+            - ./config/nginx_default.conf:/angie_default.conf
             - ./scripts/start_ng.sh:/start_ng.sh
             - ./certs/:/certs/
             - ./ssh:/ssh
