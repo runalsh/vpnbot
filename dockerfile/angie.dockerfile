@@ -1,5 +1,5 @@
 ARG image
-FROM $image
+FROM alpine
 
 RUN set -x \
      && apk add --no-cache ca-certificates curl \
@@ -12,7 +12,7 @@ RUN set -x \
      # && ln -sf /dev/stderr /var/log/angie/error.log \
      && mkdir -p /root/.ssh \
      && mkdir -p /var/cache/angie \
-     && htpasswd -c -b /etc/angie/.htpasswd user password 
+     && htpasswd -c -b /etc/angie/.htpasswd user password
      #TODO user and pass make as .env
 
 ENV ENV="/root/.ashrc"

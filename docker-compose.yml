@@ -19,10 +19,10 @@ volumes:
 
 services:
     up:
-        image: angielocal
+        image: runalsh/angie:latest
         build:
             context: dockerfile
-            dockerfile: angieproxy.dockerfile
+            dockerfile: angie.dockerfile
             args:
                 image: ${IMAGE}
         volumes:

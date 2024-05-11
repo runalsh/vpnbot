@@ -1,5 +1,5 @@
 ARG image
-FROM $image as builder
+FROM alpine as builder
 
 ENV ANGIE_VERSION 1.5.0
 ENV NGINX_HTTP_PROXY_CONNECT_MODULE 0.0.6
@@ -39,7 +39,7 @@ RUN cd /tmp/build/angie/angie-${ANGIE_VERSION} && \
     ls -la /tmp/build/angie/angie-release-build
 
 ARG image
-FROM $image
+FROM alpine
 
 ENV ANGIE_VERSION 1.5.0
 ENV NGINX_HTTP_PROXY_CONNECT_MODULE 0.0.6
