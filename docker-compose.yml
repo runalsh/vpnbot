@@ -113,7 +113,7 @@ services:
             - ./app/webapp:/app
         ports:
             - 80:80
-            - 9002:9002
+            # - 9002:9002
         hostname: nginx
         container_name: nginx-${VER}
         depends_on:
