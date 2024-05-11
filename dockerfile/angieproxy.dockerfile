@@ -26,12 +26,35 @@ RUN mkdir -p /tmp/build/module && \
 RUN cd /tmp/build/angie/angie-${ANGIE_VERSION} && \
     patch -p1 < /tmp/build/module/ngx_http_proxy_connect_module-${NGINX_HTTP_PROXY_CONNECT_MODULE}/patch/proxy_connect_rewrite_102101.patch
 
+RUN cd /tmp/build/module && \
+    git clone --depth=1 https://github.com/vozlt/nginx-module-vts nginx-module-vts
+
+RUN cd /tmp/build/module && \    
+    git clone --depth=1 https://github.com/vozlt/nginx-module-sts nginx-module-sts && \
+    git clone --depth=1 https://github.com/vozlt/nginx-module-stream-sts nginx-module-stream-sts
+
+# https://tengine.taobao.org/document/ngx_debug_pool.html
+RUN cd /tmp/build/module && git clone --depth=1  https://github.com/alibaba/tengine tengine
+
 RUN cd /tmp/build/angie/angie-${ANGIE_VERSION} && \
     ./configure \
     --prefix=/etc/angie --conf-path=/etc/angie/angie.conf \
-    --error-log-path=/var/log/angie/error.log --http-log-path=/var/log/angie/access.log --lock-path=/run/angie.lock --modules-path=/usr/lib/angie/modules --pid-path=/run/angie.pid --sbin-path=/usr/sbin/angie \
-    --http-acme-client-path=/var/lib/angie/acme --http-client-body-temp-path=/var/cache/angie/client_temp --http-fastcgi-temp-path=/var/cache/angie/fastcgi_temp --http-proxy-temp-path=/var/cache/angie/proxy_temp --http-scgi-temp-path=/var/cache/angie/scgi_temp --http-uwsgi-temp-path=/var/cache/angie/uwsgi_temp --user=angie --group=angie --with-file-aio --with-http_acme_module --with-http_addition_module --with-http_auth_request_module --with-http_dav_module --with-http_flv_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_mp4_module --with-http_random_index_module --with-http_realip_module --with-http_secure_link_module --with-http_slice_module --with-http_ssl_module --with-http_stub_status_module --with-http_sub_module --with-http_v2_module --with-http_v3_module --with-mail --with-mail_ssl_module --with-stream --with-stream_mqtt_preread_module --with-stream_realip_module --with-stream_ssl_module --with-stream_ssl_preread_module --with-threads --with-ld-opt='-Wl,--as-needed,-O1,--sort-common -Wl,-z,pack-relative-relocs' \
-    --add-module=/tmp/build/module/ngx_http_proxy_connect_module-${NGINX_HTTP_PROXY_CONNECT_MODULE}
+    --error-log-path=/var/log/angie/error.log --http-log-path=/var/log/angie/access.log --lock-path=/run/angie.lock \
+    --modules-path=/usr/lib/angie/modules --pid-path=/run/angie.pid --sbin-path=/usr/sbin/angie \
+    --http-acme-client-path=/var/lib/angie/acme --http-client-body-temp-path=/var/cache/angie/client_temp  \
+    --http-fastcgi-temp-path=/var/cache/angie/fastcgi_temp --http-proxy-temp-path=/var/cache/angie/proxy_temp \
+    --http-scgi-temp-path=/var/cache/angie/scgi_temp --http-uwsgi-temp-path=/var/cache/angie/uwsgi_temp \
+    --user=angie --group=angie \
+    --with-file-aio --with-http_acme_module --with-http_addition_module --with-http_auth_request_module \
+    --with-http_dav_module --with-http_flv_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_mp4_module \
+    --with-http_random_index_module --with-http_realip_module --with-http_secure_link_module --with-http_slice_module --with-http_ssl_module \
+    --with-http_stub_status_module --with-http_sub_module --with-http_v2_module --with-http_v3_module --with-mail --with-mail_ssl_module \
+    --with-stream --with-stream_mqtt_preread_module --with-stream_realip_module --with-stream_ssl_module --with-stream_ssl_preread_module --with-threads \
+    --with-ld-opt='-Wl,--as-needed,-O1,--sort-common -Wl,-z,pack-relative-relocs' \
+    --with-compat --add-module=/tmp/build/module/ngx_http_proxy_connect_module-${NGINX_HTTP_PROXY_CONNECT_MODULE} 
+    # --add-module=/tmp/build/module/nginx-module-vts \
+    # --add-module=/tmp/build/module/nginx-module-sts --add-module=/tmp/build/module/nginx-module-stream-sts \
+    # --add-module=/tmp/build/module/tengine/modules/ngx_debug_pool
     
 RUN cd /tmp/build/angie/angie-${ANGIE_VERSION} && \
     make -j$proc && \
