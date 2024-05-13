@@ -1290,7 +1290,7 @@ class Bot
             $out[] = 'reset nginx';
             $this->update($this->input['chat'], $this->input['message_id'], implode("\n", $out));
 
-            $t = file_get_contents('/config/nginx_default.conf');
+            $t = file_get_contents('/config/angie_default.conf');
             if (!empty($json['pac']['domain'])) {
                 $t = preg_replace('/server_name ([^\n]+)?/', "server_name {$json['pac']['domain']};", $t);
                 preg_match_all('~#-domain.+?#-domain~s', $t, $m);
@@ -1306,7 +1306,7 @@ class Bot
                     $t = preg_replace('~#-ssl.+?#-ssl~s', $this->uncomment($v, 'ssl'), $t, 1);
                 }
             }
-            file_put_contents('/config/nginx.conf', $t);
+            file_put_contents('/config/angie.conf', $t);
             $this->adguardProtect();
             $out[] = $this->ssh("angie -s reload 2>&1", 'ng');
             $this->update($this->input['chat'], $this->input['message_id'], implode("\n", $out));
@@ -1608,13 +1608,13 @@ class Bot
         if (!empty($domain)) {
             $conf = $this->getPacConf();
             $conf['domain'] = idn_to_ascii($domain);
-            $nginx = file_get_contents('/config/nginx.conf');
+            $nginx = file_get_contents('/config/angie.conf');
             $t = preg_replace('/server_name ([^\n]+)?/', "server_name {$conf['domain']};", $nginx);
             preg_match_all('~#-domain.+?#-domain~s', $t, $m);
             foreach ($m[0] as $k => $v) {
                 $t = preg_replace('~#-domain.+?#-domain~s', $this->uncomment($v, 'domain'), $t, 1);
             }
-            file_put_contents('/config/nginx.conf', $t);
+            file_put_contents('/config/angie.conf', $t);
             $this->adguardProtect();
             $u = $this->ssh("angie -t 2>&1", 'ng');
             $out[] = $u;
@@ -1627,7 +1627,7 @@ class Bot
                 $this->setUpstreamDomainOcserv($domain);
                 $this->setUpstreamDomainNaive($domain);
             } else {
-                file_put_contents('/config/nginx.conf', $nginx);
+                file_put_contents('/config/angie.conf', $nginx);
             }
         }
         if (empty($nomenu)) {
@@ -1675,13 +1675,13 @@ class Bot
 
     public function deleteSSL($notmenu = false)
     {
-        $nginx = file_get_contents('/config/nginx.conf');
+        $nginx = file_get_contents('/config/angie.conf');
         $t = preg_replace("/#~[^\s]+/", '#~', $nginx);
         preg_match_all('~##ssl.+?##ssl~s', $t, $m);
         foreach ($m[0] as $k => $v) {
             $t = preg_replace('~##ssl.+?##ssl~s', $this->comment($v, 'ssl'), $t, 1);
         }
-        file_put_contents('/config/nginx.conf', $t);
+        file_put_contents('/config/angie.conf', $t);
         $u = $this->ssh("angie -t 2>&1", 'ng');
         $this->update($this->input['chat'], $this->input['message_id'], $u);
         if (preg_match('~test is successful~', $u)) {
@@ -1699,7 +1699,7 @@ class Bot
             unlink('/certs/cert_public');
             sleep(3);
         } else {
-            file_put_contents('/config/nginx.conf', $nginx);
+            file_put_contents('/config/angie.conf', $nginx);
         }
         if (!$notmenu) {
             $this->menu('config');
@@ -1740,13 +1740,13 @@ class Bot
         if (preg_match('~[^\s]+BEGIN PRIVATE KEY.+?END PRIVATE KEY[^\s]+~s', $bundle, $m)) {
             file_put_contents('/certs/cert_private', $m[0]);
             file_put_contents('/certs/cert_public', preg_replace('~[^\s]+BEGIN PRIVATE KEY.+?END PRIVATE KEY[^\s]+~s', '', $bundle));
-            $nginx = file_get_contents('/config/nginx.conf');
+            $nginx = file_get_contents('/config/angie.conf');
             $t = preg_replace('/#~([^\n]+)?/', "#~$name", $nginx);
             preg_match_all('~#-ssl.+?#-ssl~s', $t, $m);
             foreach ($m[0] as $k => $v) {
                 $t = preg_replace('~#-ssl.+?#-ssl~s', $this->uncomment($v, 'ssl'), $t, 1);
             }
-            file_put_contents('/config/nginx.conf', $t);
+            file_put_contents('/config/angie.conf', $t);
             $u = $this->ssh("angie -t 2>&1", 'ng');
             $out[] = $u;
             $this->update($this->input['chat'], $this->input['message_id'], implode("\n", $out));
@@ -1770,7 +1770,7 @@ class Bot
                 $out[] = $this->startAd();
                 $this->update($this->input['chat'], $this->input['message_id'], implode("\n", $out));
             } else {
-                file_put_contents('/config/nginx.conf', $nginx);
+                file_put_contents('/config/angie.conf', $nginx);
             }
         } else {
             $this->update($this->input['chat'], $this->input['message_id'], "wrong format key");
@@ -1806,12 +1806,12 @@ class Bot
         $this->deleteSSL(1);
         $conf = $this->getPacConf();
         unset($conf['domain']);
-        $nginx = $t = file_get_contents('/config/nginx.conf');
+        $nginx = $t = file_get_contents('/config/angie.conf');
         preg_match_all('~##domain.+?##domain~s', $t, $m);
         foreach ($m[0] as $k => $v) {
             $t = preg_replace('~##domain.+?##domain~s', $this->comment($v, 'domain'), $t, 1);
         }
-        file_put_contents('/config/nginx.conf', $t);
+        file_put_contents('/config/angie.conf', $t);
         $u = $this->ssh("angie -t 2>&1", 'ng');
         $out[] = $u;
         $this->update($this->input['chat'], $this->input['message_id'], implode("\n", $out));
@@ -1822,7 +1822,7 @@ class Bot
             $this->setUpstreamDomainOcserv('');
             $this->chocdomain('');
         } else {
-            file_put_contents('/config/nginx.conf', $nginx);
+            file_put_contents('/config/angie.conf', $nginx);
         }
         $this->menu('config');
     }
@@ -1884,9 +1884,9 @@ class Bot
 
     public function resetnginx()
     {
-        $nginx   = file_get_contents('/config/nginx.conf');
-        $default = file_get_contents('/config/nginx_default.conf');
-        file_put_contents('/config/nginx.conf', $default);
+        $nginx   = file_get_contents('/config/angie.conf');
+        $default = file_get_contents('/config/angie_default.conf');
+        file_put_contents('/config/angie.conf', $default);
         $u = $this->ssh("angie -t 2>&1", 'ng');
         $out[] = $u;
         $this->update($this->input['chat'], $this->input['message_id'], implode("\n", $out));
@@ -1897,7 +1897,7 @@ class Bot
             unset($conf['domain']);
             $this->setPacConf($conf);
         } else {
-            file_put_contents('/config/nginx.conf', $nginx);
+            file_put_contents('/config/angie.conf', $nginx);
         }
         sleep(5);
         $this->menu('config');
@@ -4426,7 +4426,7 @@ DNS-over-HTTPS with IP:
             }
             location
         CONF;
-        $f = '/config/nginx.conf';
+        $f = '/config/angie.conf';
         $c = file_get_contents($f);
         $t = preg_replace('~(location /adguard.+?})\s*location~s', $r, $c);
         file_put_contents($f, $t);
@@ -4443,7 +4443,7 @@ DNS-over-HTTPS with IP:
         $c['adgbrowser'] = $c['adgbrowser'] ? 0 : 1;
         $this->setPacConf($c);
         $this->adguardProtect();
-        $this->ssh('nginx -s reload', 'ng');
+        $this->ssh('angie -s reload', 'ng');
         $this->answer($this->input['callback_id'], $this->i18n($c['adgbrowser'] ? 'browser_notify_on' : 'browser_notify_off'), true);
         $this->menu('adguard');
     }
