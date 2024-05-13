@@ -17,6 +17,7 @@
   - torrserver have auth basic and ssl
   - resolve dynamic endpoint for torrserver inside docker
   - remove absolute version for xray and ss
+  - auth basic user and passwd set by overrride.env
 ---
 telegram bot to manage servers (inside the bot)
 
