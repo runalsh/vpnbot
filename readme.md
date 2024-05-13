@@ -16,6 +16,7 @@
   - torrserver as external due docker service (on host) on upstream
   - torrserver have auth basic and ssl
   - resolve dynamic endpoint for torrserver inside docker
+  - remove absolute version for xray and ss
 ---
 telegram bot to manage servers (inside the bot)
 
