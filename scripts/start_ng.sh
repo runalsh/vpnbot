@@ -7,5 +7,9 @@ sed "s/ss:[0-9]\+/ss:$SSPORT/" /etc/angie/angie.conf > change_port
 cat change_port > /etc/angie/angie.conf
 HOSTIP=$(route | awk '/default/ { print $2 }')
 sed -i "s/172.17.0.1/$HOSTIP/" /etc/angie/angie.conf
-htpasswd -c -b /etc/angie/.htpasswd $AUTHUSER $AUTHPASSWD
+if [ -n $AUTHUSER ]; then
+    touch /etc/angie/.htpasswd
+  else
+    htpasswd -c -b /etc/angie/.htpasswd $AUTHUSER $AUTHPASSWD
+fi
 angie -g "daemon off;"
