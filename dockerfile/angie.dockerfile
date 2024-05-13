@@ -11,9 +11,7 @@ RUN set -x \
      # && ln -sf /dev/stdout /var/log/angie/access.log \
      # && ln -sf /dev/stderr /var/log/angie/error.log \
      && mkdir -p /root/.ssh \
-     && mkdir -p /var/cache/angie \
-     && htpasswd -c -b /etc/angie/.htpasswd user password
-     #TODO user and pass make as .env
+     && mkdir -p /var/cache/angie
 
 ENV ENV="/root/.ashrc"
 
