@@ -19,7 +19,7 @@ volumes:
 
 services:
     up:
-        image: runalsh/angie:latest
+        image: runalsh/angie:vpnbotlatest
         build:
             context: dockerfile
             dockerfile: angie.dockerfile
@@ -94,7 +94,7 @@ services:
     #             ipv4_address: 10.10.0.10
     #     logging: *default-logging
     ng:
-        image: runalsh/angie:latest
+        image: runalsh/angie:vpnbotlatest
         build:
             context: dockerfile
             dockerfile: angie.dockerfile
