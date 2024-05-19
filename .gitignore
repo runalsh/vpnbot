@@ -19,4 +19,4 @@ mirror/.env
 update/*
 !update/update.sh
 
-override.env
+#override.env

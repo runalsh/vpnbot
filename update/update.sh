@@ -15,7 +15,7 @@ do
         curl -H "Content-Type: application/json" -X POST https://api.telegram.org/bot$key/editMessageText -d "$(cat $pwd/update/curl | sed 's/"text":"~t~"/"text": "очищаю директорию"/')"
         git reset --hard && git clean -fd
         curl -H "Content-Type: application/json" -X POST https://api.telegram.org/bot$key/editMessageText -d "$(cat $pwd/update/curl | sed 's/"text":"~t~"/"text": "скачиваю обновление"/')"
-        git fetch
+        git fetch --all
         if [[ -n "$branch" ]]
         then
             curl -H "Content-Type: application/json" -X POST https://api.telegram.org/bot$key/editMessageText -d "$(cat $pwd/update/curl | sed 's/"text":"~t~"/"text": "меняю ветку"/')"
