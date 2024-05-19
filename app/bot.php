@@ -1004,7 +1004,7 @@ class Bot
                                 [
                                     [
                                         'text' => 'changelog',
-                                        'web_app' => ['url' => "https://raw.githubusercontent.com/mercurykd/vpnbot/$b/version"],
+                                        'web_app' => ['url' => "https://raw.githubusercontent.com/runalsh/vpnbot/$b/version"],
                                     ]
                                 ]
                             ]);
