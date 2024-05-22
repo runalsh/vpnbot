@@ -18,6 +18,7 @@
   - resolve dynamic endpoint for torrserver inside docker
   - remove absolute version for xray and ss
   - auth basic user and passwd set by overrride.env
+  - self docker image runalsh/angie:vpnbotproxy
 ---
 telegram bot to manage servers (inside the bot)
 
