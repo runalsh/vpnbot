@@ -8,6 +8,17 @@
      set you username and password in line "htpasswd -c -b /etc/angie/.htpasswd user password"
   - angie.dockerfile just install package from alpine repo
   - angieproxy.dockerfile build Angie from sources with custom module https://github.com/chobits/ngx_http_proxy_connect_module
+### branch: upstream-angie-selfuse
+  - all changes from upstream-angie and:
+  - backend nginx changes to angie
+  - add status pages for all backend services
+  - p8s for backend
+  - torrserver as external due docker service (on host) on upstream
+  - torrserver have auth basic and ssl
+  - resolve dynamic endpoint for torrserver inside docker
+  - remove absolute version for xray and ss
+  - auth basic user and passwd set by overrride.env
+  - self docker image runalsh/angie:vpnbotproxy
 ---
 telegram bot to manage servers (inside the bot)
 
